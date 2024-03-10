@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_BUILD_TYPE Release)
+
+set(VCPKG_ROOT, "K:/dev/github/vcpkg")
+
+# Set the CMAKE_TOOLCHAIN_FILE variable to the vcpkg toolchain file
+set(CMAKE_TOOLCHAIN_FILE "K:/dev/github/vcpkg/scripts/buildsystems/vcpkg.cmake")
+
+# Create a new project
+project(MyProject)
+
+include_directories(
+    ${PROJECT_SOURCE_DIR}/src
+)
+
+include(${CMAKE_TOOLCHAIN_FILE})
+# Find the GTest package
+# find_package(GTest REQUIRED)
+
+find_package(GTest REQUIRED)
+
+# Add an executable target
+add_executable(myapp src/main.cpp)
+
+add_executable(alltest test/timer_test.cpp)
+
+# Link your test executable with the GTest libraries
+target_link_libraries(alltest PRIVATE GTest::gtest GTest::gtest_main GTest::gmock)
+
+# Add a test target to run your tests
+enable_testing()
+
